@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D127539D-9A00-42C8-AA83-B3A45F71A023}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FougeriteAdminBridge</RootNamespace>
+    <AssemblyName>FougeriteAdminBridge</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fougerite">
+      <HintPath>..\..\Fougerite\bin\Fougerite.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\Fougerite\bin\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.ID">
+      <HintPath>..\..\Fougerite\bin\Facepunch.ID.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.HitBox">
+      <HintPath>..\..\Fougerite\bin\Facepunch.HitBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.Utility">
+      <HintPath>..\..\Fougerite\bin\Facepunch.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="Facepunch.MeshBatch">
+      <HintPath>..\..\Fougerite\bin\Facepunch.MeshBatch.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="uLink">
+      <HintPath>..\..\Fougerite\bin\uLink.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Fougerite\bin\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FougeriteAdminBridge.cs" />
+    <Compile Include="CommandsHandler.cs" />
+    <Compile Include="RawRedisClient.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\BroadcastCommand.cs" />
+    <Compile Include="Commands\ChatCommand.cs" />
+    <Compile Include="Commands\KickCommand.cs" />
+    <Compile Include="Commands\BanCommand.cs" />
+    <Compile Include="Commands\UnbanCommand.cs" />
+    <Compile Include="Commands\TeleportCommand.cs" />
+    <Compile Include="Commands\GiveCommand.cs" />
+    <Compile Include="Commands\KillCommand.cs" />
+    <Compile Include="Commands\ShutdownCommand.cs" />
+    <Compile Include="Commands\SaveCommand.cs" />
+    <Compile Include="Commands\AirdropCommand.cs" />
+    <Compile Include="Commands\GetGameItemsCommand.cs" />
+    <Compile Include="Commands\DsGetTablesCommand.cs" />
+    <Compile Include="Commands\DsClearTableCommand.cs" />
+    <Compile Include="Commands\ToggleHeatmapCommand.cs" />
+    <Compile Include="Commands\ToggleCraftingCommand.cs" />
+    <Compile Include="Commands\ToggleGatheringCommand.cs" />
+    <Compile Include="Commands\SyncPlayersCommand.cs" />
+    <Compile Include="Commands\GetServerTelemetryCommand.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "C:\Users\Gabri\games\Rust Legacy Server Official\Modules\FougeriteAdminBridge" mkdir "C:\Users\Gabri\games\Rust Legacy Server Official\Modules\FougeriteAdminBridge"
+copy /Y "$(TargetPath)" "C:\Users\Gabri\games\Rust Legacy Server Official\Modules\FougeriteAdminBridge\"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

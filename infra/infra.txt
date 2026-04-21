@@ -1,0 +1,6 @@
+# Redis
+podman run -d --name my-redis -p 6379:6379 redis
+
+
+# PostgreSQL
+podman run -d --name my-postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres

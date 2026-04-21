@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="../fwam-backend/FougeriteAdminBridge.API.csproj" />
+  <Project Path="../fwam-bridge-emulator/FougeriteAdminBridge.Emulator.csproj" Id="b81966c0-bdb2-43bd-b73c-0c93af4ed75f" />
+  <Project Path="FougeriteAdminBridge.Plugin.csproj" Id="d127539d-9a00-42c8-aa83-b3a45f71a023" />
+</Solution>

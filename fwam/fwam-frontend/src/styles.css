@@ -1,0 +1,185 @@
+/* ============================================================
+   FWAM — Global Styles
+   Rust Legacy Dark Theme
+   Stack: TailwindCSS v4 + PrimeNG v21 unstyled + tailwindcss-primeui
+   ============================================================ */
+
+@import 'tailwindcss';
+@import "tailwindcss-primeui";
+@import "primeicons/primeicons.css";
+
+/* Dark mode variant — applied via class on <html> */
+@custom-variant dark (&:where(.fwam-dark, .fwam-dark *));
+
+/* ============================================================
+   TAILWIND v4 THEME TOKENS
+   Note: In TW v4, @theme only accepts static values, not var()
+   references. Dynamic tokens are defined as CSS custom properties
+   below and referenced directly in templates.
+   ============================================================ */
+@theme {
+  --font-family-display: 'Rajdhani', sans-serif;
+  --font-family-body:    'Exo 2', sans-serif;
+  --font-family-mono:    'Share Tech Mono', monospace;
+}
+
+/* ============================================================
+   RUST LEGACY CSS CUSTOM PROPERTIES
+   Available globally as var(--color-rust-*) in templates and
+   inline styles. Not inside @theme to avoid TW v4 static-value
+   restriction.
+   ============================================================ */
+:root {
+  /* Backgrounds */
+  --color-rust-base:     #1c1a17;
+  --color-rust-surface:  #252219;
+  --color-rust-elevated: #2d2a24;
+  --color-rust-overlay:  #3a352e;
+
+  /* Borders */
+  --color-rust-border:        #4a4035;
+  --color-rust-border-accent: #6b5540;
+
+  /* Brand: Rust Orange */
+  --color-rust-500: #ce6030;
+  --color-rust-600: #b84e24;
+  --color-rust-400: #e07448;
+  --color-rust-300: #ed9070;
+  --color-rust-glow: #ce603028;
+
+  /* Brand: Olive Military */
+  --color-olive-500: #5c6b2f;
+  --color-olive-600: #48531f;
+  --color-olive-400: #7a8f3f;
+
+  /* Text */
+  --color-rust-text-primary:   #c8b99a;
+  --color-rust-text-secondary: #8c7d6a;
+  --color-rust-text-muted:     #5c5244;
+
+  /* Status */
+  --color-rust-danger:         #9b2424;
+  --color-rust-danger-light:   #c43030;
+  --color-rust-danger-glow:    #9b242428;
+  --color-rust-warning:        #9b7820;
+  --color-rust-warning-light:  #c49a28;
+  --color-rust-success:        #3d6b2a;
+  --color-rust-success-light:  #54923a;
+  --color-rust-info:           #2a4a6b;
+}
+
+/* ============================================================
+   BASE RESETS & DEFAULTS
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-body);
+  background-color: var(--color-rust-base);
+  color: var(--color-rust-text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  color: var(--color-rust-text-primary);
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem; }
+
+code, pre, .font-mono { font-family: var(--font-family-mono); }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar         { width: 6px; height: 6px; }
+::-webkit-scrollbar-track   { background: var(--color-rust-base); }
+::-webkit-scrollbar-thumb   { background: var(--color-rust-border-accent); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-rust-500); }
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.rust-panel {
+  background-color: var(--color-rust-surface);
+  border: 1px solid var(--color-rust-border);
+  border-radius: 4px;
+}
+
+.rust-panel-accent {
+  background-color: var(--color-rust-surface);
+  border: 1px solid var(--color-rust-border);
+  border-top: 2px solid var(--color-rust-500);
+  border-radius: 4px;
+}
+
+.rust-glow-hover:hover {
+  box-shadow: 0 0 14px var(--color-rust-glow);
+}
+
+.section-label {
+  font-family: var(--font-family-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-rust-text-muted);
+}
+
+.terminal-output {
+  font-family: var(--font-family-mono);
+  font-size: 12px;
+  color: #a8b820;
+  background-color: #0a0900;
+  line-height: 1.6;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes rust-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes rust-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rust-slide-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-rust-pulse    { animation: rust-pulse 2s ease-in-out infinite; }
+.animate-rust-fade-in  { animation: rust-fade-in 0.2s ease-out forwards; }
+.animate-rust-slide-in { animation: rust-slide-in 0.2s ease-out forwards; }
+
+.live-dot::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-rust-success-light);
+  margin-right: 6px;
+  animation: rust-pulse 2s ease-in-out infinite;
+}

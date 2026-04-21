@@ -1,0 +1,9 @@
+@fwam_backend_HostAddress = http://localhost:5259
+
+GET {{fwam_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{fwam_backend_HostAddress}}/api/admin/items
+Accept: application/json

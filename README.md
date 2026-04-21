@@ -1,0 +1,110 @@
+# Fougerite Web Admin Manager (FWAM)
+
+A modern, real-time web administration suite and telemetry platform for **Rust Legacy** servers, powered by the [Fougerite](https://github.com/Fougerite/Fougerite) modding framework.
+
+## 🚀 Overview
+
+FWAM bridges the gap between the aging Rust Legacy server engine and modern web technologies. It provides server owners with a powerful dashboard to monitor player activity, manage server state, and execute commands in real-time through a sleek, responsive interface.
+
+## 🏗️ Architecture
+
+The system follows a decoupled, event-driven architecture using **Redis** as the central message bus and state cache.
+
+```mermaid
+graph TD
+    subgraph "Game Server (Windows/Mono)"
+        F[Fougerite Core] --> B[FWAM Bridge]
+    end
+
+    subgraph "Infrastructure"
+        R[(Redis)]
+        P[(PostgreSQL)]
+    end
+
+    subgraph "Admin Suite"
+        API[FWAM Backend .NET 10]
+        UI[FWAM Frontend Angular]
+    end
+
+    B -- "Push Events / Listen Commands" --> R
+    API -- "Poll/Listen" --> R
+    API -- "Persist History" --> P
+    UI -- "SignalR / REST" --> API
+```
+
+### Key Components
+
+1.  **FWAM Bridge (`fwam/fwam-bridge`)**: 
+    - A C# module loaded directly into the Rust server process.
+    - Captures game events (connections, chat, combat) and pushes them to Redis.
+    - Executes commands received from the web interface.
+    - Built for compatibility with the .NET 3.5/Mono runtime used by Rust Legacy.
+
+2.  **FWAM Backend (`fwam/fwam-backend`)**:
+    - A high-performance .NET 10 Web API.
+    - Processes incoming events from Redis and persists long-term data to PostgreSQL.
+    - Maintains a real-time state of the server (online players, telemetry).
+    - Exposes a SignalR hub and REST API for the frontend.
+
+3.  **FWAM Frontend (`fwam/fwam-frontend`)**:
+    - A modern Angular 19+ SPA.
+    - Features a "Rust Legacy" inspired aesthetic using PrimeNG (unstyled) and custom CSS.
+    - Provides real-time maps, player management, and live console logging.
+
+## 🛠️ Tech Stack
+
+- **Backend**: C#, .NET 10, Entity Framework Core, SignalR.
+- **Frontend**: Angular, TypeScript, Signals, PrimeNG, RxJS.
+- **Message Bus**: Redis (RESP Protocol).
+- **Database**: PostgreSQL.
+- **Legacy Framework**: Fougerite (C# / .NET Framework 3.5).
+
+## 🚦 Getting Started
+
+### Prerequisites
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Node.js & npm](https://nodejs.org/) (for Angular)
+- [Redis](https://redis.io/) (Running on localhost:6379 by default)
+- [PostgreSQL](https://www.postgresql.org/) (Configured in `appsettings.json`)
+- [MSBuild](https://visualstudio.microsoft.com/downloads/) (for legacy C# projects)
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone <your-repo-url>
+   cd fougerite-web-admin-manager
+   ```
+
+2. **Setup Infrastructure**:
+   Ensure Redis and PostgreSQL are running. You can find configuration templates in the `infra/` folder.
+
+3. **Build the Bridge**:
+   ```powershell
+   msbuild fwam\fwam-bridge\FougeriteAdminBridge.csproj /p:Configuration=Release
+   ```
+
+4. **Run the Backend**:
+   ```powershell
+   cd fwam\fwam-backend
+   dotnet run
+   ```
+
+5. **Run the Frontend**:
+   ```powershell
+   cd fwam\fwam-frontend
+   npm install
+   npm run start
+   ```
+
+## 📜 Redis Contract
+
+Communication between the bridge and the backend is handled via Redis:
+- **Events**: Pushed to `fwam:events` as JSON payloads.
+- **Commands**: Published to `fwam:commands` using the format `ACTION|TARGET|ARG`.
+- **Telemetry**: Cached in Redis keys for fast access.
+
+## 📄 License
+
+This project is licensed under the terms included in the `LICENSE` file (if applicable).
