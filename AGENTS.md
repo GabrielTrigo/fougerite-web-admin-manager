@@ -41,7 +41,7 @@ msbuild fwam\fwam-bridge\FougeriteAdminBridge.csproj /p:Configuration=Release
 
 - `Fougerite\` is the legacy Rust server modding platform. It works by **statically patching Rust Legacy assemblies before server start**, then routing game activity through `Hooks` and plugin/module loaders.
 - `fwam\fwam-bridge\` is the in-process game bridge loaded by Fougerite. It hooks game events, builds `GameEvent` payloads, pushes them to Redis via a **custom raw RESP/TCP client** (`RawRedisClient`), listens on `fwam:commands`, and marshals command execution back onto the Unity/Fougerite main thread through `Loom.QueueOnMainThread(...)`.
-- `fwam\fwam-backend\` is the out-of-process admin API. Today it publishes commands to Redis, polls `fwam:events` from Redis in `TelemetriaWorker`, persists event logs to PostgreSQL via EF Core, and maintains Redis-backed caches for online players, recent events, and item lists. The current code uses **polling REST endpoints**, not SignalR, even though the architecture docs describe SignalR as the intended real-time channel.
+- `fwam\fwam-backend\` is the out-of-process admin API. Today it publishes commands to Redis, polls `fwam:events` from Redis in `TelemetriaWorker`, persists event logs to SQLite via EF Core, and maintains Redis-backed caches for online players, recent events, and item lists. The current code uses **polling REST endpoints**, not SignalR, even though the architecture docs describe SignalR as the intended real-time channel.
 - `fwam\fwam-frontend\` is an Angular SPA built with **standalone components, lazy-loaded route components, signals, and PrimeNG in unstyled mode**. The actual live integration point is `EventService`, which polls the backend every 3 seconds. Many screens still read from `MockDataService`, so the UI is partly live-backed and partly mock-backed.
 
 ## Key conventions
@@ -64,6 +64,6 @@ msbuild fwam\fwam-bridge\FougeriteAdminBridge.csproj /p:Configuration=Release
 - The current local integration defaults are spread across files and must stay aligned:
   - frontend API base URL is hardcoded in `AdminApiService` (`http://localhost:5259/api/admin`)
   - backend CORS currently allows `http://localhost:4200`
-  - backend Redis/Postgres defaults come from `appsettings.json`
+  - backend Redis/SQLite defaults come from `appsettings.json`
   - bridge startup also writes/reads its own `FWAMBridge.ini`
 - Treat `fwam\ARCHITECTURE.md`, `fwam\fwam_architecture.md`, `fwam\fwam-frontend\FRONTEND_PLAN.md`, and `fwam\fwam-bridge\BRIDGE_PLAN.md` as important design context, but prefer the current code when versions or implemented capabilities disagree with those documents.

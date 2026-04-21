@@ -198,11 +198,11 @@ Ao reconectar, um ReplayWorker envia os eventos em lote. Audit logs nunca sao pe
 |---|---|
 | Monitor de flood de conexoes | On_PlayerApproval + rate tracking Redis |
 | Deteccao de craft hack | Bootstrap.AutoBanCraft + stream On_Crafting |
-| Auditoria de bans | On_PlayerBan -> Redis Stream -> PostgreSQL |
+| Auditoria de bans | On_PlayerBan -> Redis Stream -> SQLite |
 | Blacklist de IP | On_PlayerApproval + DataStore + toggle UI |
 | Alertas de comportamento suspeito | Regras: X kills em Y segundos, itens >Z |
 | Log de comandos de console | On_ConsoleWithCancel stream completo |
-| Historico de sessoes | On_PlayerConnected/Disconnected -> PostgreSQL |
+| Historico de sessoes | On_PlayerConnected/Disconnected -> SQLite |
 | Visualizacao de ban list | REST -> leitura BanList Fougerite |
 | Autenticacao 2FA para admins | TOTP (Google Authenticator) via backend |
 | Audit trail de acoes admin | Toda acao administrativa com autor + timestamp |
@@ -262,7 +262,7 @@ PROCESSO FWAM API (ASP.NET Core 8 — servico OS separado)
   SignalR Hubs (WebSocket)
   Redis Consumer Group (EventProcessor background service)
   Hangfire Server (Automation)
-  PostgreSQL 16 + TimescaleDB   <- analytics e audit
+  SQLite                        <- analytics e audit local
   Redis (state cache)           <- estado real-time
 
 INTERNET (TLS 1.3 via Nginx)
@@ -281,7 +281,7 @@ INTERNET (TLS 1.3 via Nginx)
 [3] Main thread retorna AO JOGO imediatamente
 [4] EventConsumerThread: drena batch de 50 eventos, serializa, XADD Redis
 [5] Redis recebe o evento (~0.1ms latencia IPC local)
-[6] EventProcessor: XREADGROUP -> PostgreSQL + SignalR Hub
+[6] EventProcessor: XREADGROUP -> SQLite + SignalR Hub
 [7] Angular recebe via WebSocket (latencia total: ~2–5ms)
 [8] UI exibe no live chat feed do dashboard
 ```
@@ -310,14 +310,14 @@ INTERNET (TLS 1.3 via Nginx)
 | ORM | EF Core 8 + Repositorios | Code-first; migrations; suporte TimescaleDB |
 | Auth | ASP.NET Core Identity + JWT | RBAC; refresh token; 2FA via TOTP |
 | Validacao | FluentValidation | Payloads de comando expressivos e seguros |
-| Automacao | Hangfire + PostgreSQL backend | Cron jobs persistentes; UI de monitoramento embutida |
+| Automacao | Hangfire + SQLite backend | Cron jobs persistentes; UI de monitoramento embutida |
 | Rate limiting | ASP.NET Core Rate Limiting built-in | Protecao contra abuso da API de comandos |
 
 ### 6.3 Persistencia
 
 | Componente | Tecnologia | Uso |
 |---|---|---|
-| Database principal | PostgreSQL 16 | Audit log, sessoes, bans historicos, configuracoes |
+| Database principal | SQLite | Audit log, sessoes, bans historicos, configuracoes |
 | Extensao time-series | TimescaleDB | Player count, kill metrics; 10–100x mais rapido que PG puro |
 | Cache operacional | Redis 7 | Estado online, comandos pendentes, rate limiting |
 | Fallback offline | JSONL rotacionado por dia | Resiliencia quando Redis indisponivel |
@@ -381,7 +381,7 @@ stream-node-max-entries 1000
 
 [Opcao 2 — Separacao de Maquinas]
 Maquina A: Rust + FougeriteAdminBridge + Redis
-Maquina B: ASP.NET Core + PostgreSQL + Nginx
+Maquina B: ASP.NET Core + SQLite + Nginx
            (Redis acessivel via VPN/rede interna)
 ```
 
@@ -396,7 +396,7 @@ Maquina B: ASP.NET Core + PostgreSQL + Nginx
 | Comunicacao API->game | Redis Pub/Sub + Loom dispatch | Nao-bloqueante; thread safety garantido |
 | Comunicacao API->browser | SignalR WebSocket | Real-time sem polling |
 | Padrao interno | Producer-Consumer lock-free | Zero bloqueio da main thread |
-| Analytics | PostgreSQL + TimescaleDB | Time-series otimizado nativamente |
+| Analytics | SQLite | Armazenamento local leve para series temporais |
 | Cache operacional | Redis 7 | Source of truth para estado online |
 | Frontend | Angular 17 + Signals | Reatividade eficiente sem NgRx overhead |
 | Autenticacao | JWT 15min + HttpOnly refresh | Seguranca sem degradar UX |

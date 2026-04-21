@@ -96,7 +96,7 @@ public struct GameEvent  // struct, não class — zero pressão de desalocaçã
 | Real-time | ASP.NET Core SignalR |
 | ORM | EF Core 8 + repositórios |
 | Auth | Identity + JWT Bearer (15min) + HttpOnly refresh (7d) |
-| Automação | Hangfire + PostgreSQL backend |
+| Automação | Hangfire + SQLite backend |
 | Rate limiting | ASP.NET Core Rate Limiting (built-in) |
 
 ### Frontend UI

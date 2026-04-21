@@ -17,7 +17,7 @@ builder.Services.AddHostedService<SyncWorker>();
 
 // FWAM Persistence
 builder.Services.AddDbContext<FwamDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configuração de CORS para o Dashboard Angular
 builder.Services.AddCors(options =>

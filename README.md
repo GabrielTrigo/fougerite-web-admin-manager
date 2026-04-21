@@ -29,7 +29,7 @@ graph TD
 
     subgraph "Infrastructure"
         R[(Redis)]
-        P[(PostgreSQL)]
+        P[(SQLite)]
     end
 
     subgraph "Admin Suite"
@@ -53,7 +53,7 @@ graph TD
 
 2.  **FWAM Backend (`fwam/fwam-backend`)**:
     - A high-performance .NET 10 Web API.
-    - Processes incoming events from Redis and persists long-term data to PostgreSQL.
+    - Processes incoming events from Redis and persists long-term data to SQLite.
     - Maintains a real-time state of the server (online players, telemetry).
     - Exposes a SignalR hub and REST API for the frontend.
 
@@ -67,7 +67,7 @@ graph TD
 - **Backend**: C#, .NET 10, Entity Framework Core, SignalR.
 - **Frontend**: Angular, TypeScript, Signals, PrimeNG, RxJS.
 - **Message Bus**: Redis (RESP Protocol).
-- **Database**: PostgreSQL.
+- **Database**: SQLite.
 - **Legacy Framework**: Fougerite (C# / .NET Framework 3.5).
 
 ## 🚦 Getting Started
@@ -77,7 +77,7 @@ graph TD
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Node.js & npm](https://nodejs.org/) (for Angular)
 - [Redis](https://redis.io/) (Running on localhost:6379 by default)
-- [PostgreSQL](https://www.postgresql.org/) (Configured in `appsettings.json`)
+- SQLite (Embedded, no installation required)
 - [MSBuild](https://visualstudio.microsoft.com/downloads/) (for legacy C# projects)
 
 ### Installation
@@ -89,7 +89,7 @@ graph TD
    ```
 
 2. **Setup Infrastructure**:
-   Ensure Redis and PostgreSQL are running. You can find configuration templates in the `infra/` folder.
+   Ensure Redis is running. You can find configuration templates in the `infra/` folder.
 
 3. **Build the Bridge**:
    > [!IMPORTANT]

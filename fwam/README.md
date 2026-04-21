@@ -25,7 +25,7 @@ fwam/
 
 ### Backend (Fase 2)
 - **ASP.NET Core 8** — REST API + SignalR Hub
-- **PostgreSQL 16 + TimescaleDB** — analytics e audit log
+- **SQLite** — analytics e audit log local
 - **Redis 7** — streams, pub/sub, cache de estado
 - **Hangfire** — automação e cron jobs
 
