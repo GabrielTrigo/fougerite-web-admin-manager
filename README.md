@@ -93,9 +93,9 @@ graph TD
    
    ```bash
    cd infra
-   docker-compose up -d --build
+   docker compose up -d --build
    # or if you use Podman:
-   # podman-compose up -d --build
+   # podman compose up -d --build
    ```
    *Note: This will start both Redis (port 6379) and the .NET 10 API (port 5259) in the background.*
 
@@ -110,14 +110,27 @@ graph TD
    msbuild fwam\fwam-bridge\FougeriteAdminBridge.Plugin.csproj /p:Configuration=Release
    ```
 
-4. **Run the Backend (Manual Option)**:
+4. **Configure the Bridge**:
+   Before running your Rust server, ensure the plugin points to the correct Redis instance. Edit the `fwam/fwam-bridge/config/FWAMBridge.ini` file and set your Redis `Host` and `Port`. 
+   ```ini
+   [Redis]
+   Host=127.0.0.1
+   Port=6379
+   
+   [Channels]
+   EventsList=fwam:events
+   CommandsChannel=fwam:commands
+   ```
+   *Note: This `.ini` file should be copied to your Rust server's module configuration folder alongside the `.dll`.*
+
+5. **Run the Backend (Manual Option)**:
    If you did not use the Docker compose method in step 2, you can run the backend manually:
    ```powershell
    cd fwam\fwam-backend
    dotnet run
    ```
 
-5. **Run the Frontend**:
+6. **Run the Frontend**:
    ```powershell
    cd fwam\fwam-frontend
    npm install
