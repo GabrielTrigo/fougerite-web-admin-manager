@@ -73,7 +73,7 @@ graph TD
 
 1. **Clone the repository**:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/GabrielTrigo/fougerite-web-admin-manager.git
    cd fougerite-web-admin-manager
    ```
 
@@ -81,8 +81,14 @@ graph TD
    Ensure Redis and PostgreSQL are running. You can find configuration templates in the `infra/` folder.
 
 3. **Build the Bridge**:
+   > [!IMPORTANT]
+   > The **FWAM Bridge** requires references to Fougerite and Rust Legacy assemblies (managed DLLs). 
+   > 1. Ensure you have the `Fougerite` project built or the DLLs available in `Fougerite/bin/`.
+   > 2. The project specifically looks for: `Fougerite.dll`, `Assembly-CSharp.dll`, `UnityEngine.dll`, `uLink.dll`, and `Facepunch.*.dll` in the `Fougerite/bin/` folder.
+   > 3. If these are missing, the build will fail. You may need to copy them from your patched Rust Legacy server's `RustDedicated_Data/Managed` folder.
+
    ```powershell
-   msbuild fwam\fwam-bridge\FougeriteAdminBridge.csproj /p:Configuration=Release
+   msbuild fwam\fwam-bridge\FougeriteAdminBridge.Plugin.csproj /p:Configuration=Release
    ```
 
 4. **Run the Backend**:
