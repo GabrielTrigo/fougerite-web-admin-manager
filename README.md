@@ -88,8 +88,16 @@ graph TD
    cd fougerite-web-admin-manager
    ```
 
-2. **Setup Infrastructure**:
-   Ensure Redis is running. You can find configuration templates in the `infra/` folder.
+2. **Setup Infrastructure & Backend**:
+   You can easily spin up Redis and the Backend API using Docker or Podman. The configuration is located in the `infra/` folder.
+   
+   ```bash
+   cd infra
+   docker-compose up -d --build
+   # or if you use Podman:
+   # podman-compose up -d --build
+   ```
+   *Note: This will start both Redis (port 6379) and the .NET 10 API (port 5259) in the background.*
 
 3. **Build the Bridge**:
    > [!IMPORTANT]
@@ -102,7 +110,8 @@ graph TD
    msbuild fwam\fwam-bridge\FougeriteAdminBridge.Plugin.csproj /p:Configuration=Release
    ```
 
-4. **Run the Backend**:
+4. **Run the Backend (Manual Option)**:
+   If you did not use the Docker compose method in step 2, you can run the backend manually:
    ```powershell
    cd fwam\fwam-backend
    dotnet run
