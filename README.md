@@ -5,6 +5,13 @@ A modern, real-time web administration suite and telemetry platform for **Rust L
 ![Dashboard Preview](assets/screenshots/dashboard_1.png)
 ![Live Preview](assets/screenshots/preview.gif)
 
+> [!CAUTION]
+> **Project Status: Pre-Alpha / Work in Progress**
+> This project is in very early development. 
+> - Not all administration modules are fully implemented.
+> - Some UI components still use **mocked data** (`MockDataService`).
+> - The architecture is subject to frequent breaking changes.
+> - Use in production environments at your own risk.
 
 ## 🚀 Overview
 
