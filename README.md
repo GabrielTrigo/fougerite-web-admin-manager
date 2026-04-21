@@ -2,7 +2,6 @@
 
 A modern, real-time web administration suite and telemetry platform for **Rust Legacy** servers, powered by the [Fougerite](https://github.com/Fougerite/Fougerite) modding framework.
 
-![Dashboard Preview](assets/screenshots/dashboard_1.png)
 ![Live Preview](assets/screenshots/preview.gif)
 
 > [!CAUTION]
