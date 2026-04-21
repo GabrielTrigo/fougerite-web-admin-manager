@@ -2,6 +2,10 @@
 
 A modern, real-time web administration suite and telemetry platform for **Rust Legacy** servers, powered by the [Fougerite](https://github.com/Fougerite/Fougerite) modding framework.
 
+![Dashboard Preview](assets/screenshots/dashboard_1.png)
+![Live Preview](assets/screenshots/preview.gif)
+
+
 ## 🚀 Overview
 
 FWAM bridges the gap between the aging Rust Legacy server engine and modern web technologies. It provides server owners with a powerful dashboard to monitor player activity, manage server state, and execute commands in real-time through a sleek, responsive interface.
@@ -111,6 +115,8 @@ Communication between the bridge and the backend is handled via Redis:
 - **Commands**: Published to `fwam:commands` using the format `ACTION|TARGET|ARG`.
 - **Telemetry**: Cached in Redis keys for fast access.
 
-## 📄 License
+## 🔗 Useful Resources
 
-This project is licensed under the terms included in the `LICENSE` file (if applicable).
+- [Fougerite Official Resource](https://fougerite.com/resources/fougerite-official.77/) - How to install Fougerite.
+- [C# Plugin Development Guide](https://fougerite.com/threads/c-plugin-development-guide.543/) - Detailed guide on building C# plugins for Fougerite.
+- [Fougerite GitHub](https://github.com/Fougerite/Fougerite) - Core framework repository.
